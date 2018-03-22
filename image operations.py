@@ -1,6 +1,7 @@
 import cv2 as editor
 
-def printPixelValue(image1, final_row, final_column, final_value):
+def printPixelValue(image_path1, final_row, final_column, final_value):
+    image1 = editor.imread(image_path1)
     i = 0
     for row in image1:
         if i < final_row:
@@ -18,7 +19,8 @@ def printPixelValue(image1, final_row, final_column, final_value):
                     print('value --- ', k)
                     return value
 
-def getvalue(image,i,j,rgb):
+def getvalue(image_path,i,j,rgb):
+    image = editor.imread(image_path)
     if rgb == 'r':
         color = 0
     elif rgb == 'g':
@@ -30,7 +32,9 @@ def getvalue(image,i,j,rgb):
         return 'error'
     return image[int(i)][int(j)][color]
 
-def divideImages(image1,image2):
+def divideImages(image_path1,image_path2):
+    image1 = editor.imread(image_path1)
+    image2 = editor.imread(image_path2)
     image3 = image2
     i = 0
     while i < len(image1):
@@ -45,35 +49,39 @@ def divideImages(image1,image2):
         i = i + 1
     return image3
 
-def divideImagesByScalar(image1,scalar):
-    image3 = image1
+def divideImagesByScalar(image_path1,scalar):
+    image1 = editor.imread(image_path1)
+    image2 = image1
     i = 0
     while i < len(image1):
         j = 0
         while j < len(image1):
             rgb = 0
             while rgb < 3:
-                image3[i][j][rgb] = int(image1[i][j][rgb]) / int(scalar)
+                image2[i][j][rgb] = int(image1[i][j][rgb]) / int(scalar)
                 rgb = rgb + 1
             j = j + 1
         i = i + 1
-    return image3
+    return image2
 
-def multiplyImagesByScalar(image1,scalar):
-    image3 = image1
+def multiplyImagesByScalar(image_path1,scalar):
+    image1 = editor.imread(image_path1)
+    image2 = image1
     i = 0
     while i < len(image1):
         j = 0
         while j < len(image1):
             rgb = 0
             while rgb < 3:
-                image3[i][j][rgb] = int(image1[i][j][rgb]) * int(scalar)
+                image2[i][j][rgb] = int(image1[i][j][rgb]) * int(scalar)
                 rgb = rgb + 1
             j = j + 1
         i = i + 1
-    return image3
+    return image2
 
-def multiplyImages(image1,image2):
+def multiplyImages(image_path1,image_path2):
+    image1 = editor.imread(image_path1)
+    image2 = editor.imread(image_path2)
     image3 = image2
     i = 0
     while i < len(image1):
@@ -87,8 +95,9 @@ def multiplyImages(image1,image2):
         i = i + 1
     return image3
 
-
-def subtractImages(image1,image2):
+def subtractImages(image_path1,image_path2):
+    image1 = editor.imread(image_path1)
+    image2 = editor.imread(image_path2)
     image3 = image2
     i = 0
     while i < len(image1):
@@ -102,8 +111,9 @@ def subtractImages(image1,image2):
         i = i + 1
     return image3
 
-
-def sumImages(image1,image2):
+def sumImages(image_path1,image_path2):
+    image1 = editor.imread(image_path1)
+    image2 = editor.imread(image_path2)
     image3 = image2
     i = 0
     while i < len(image1):
@@ -120,10 +130,118 @@ def sumImages(image1,image2):
 def otimization(v_max,v_min,value):
     return (255/v_max)*(value - v_min)
 
+def round(number):
+    if number > 128:
+        return True
+    else:
+        return False
+
+def logic_AND(image_path1, image_path2):
+    image1 = editor.imread(image_path1,0)
+    image2 = editor.imread(image_path2,0)
+    image3 = image2
+    i = 0
+    while i < len(image1):
+        j = 0
+        while j < len(image1):
+            temp = round(image1[i][j]) and round(image2[i][j])
+            if temp:
+                image3[i][j] = 255
+            else:
+               image3[i][j] = 0
+            j = j + 1
+        i = i + 1
+    return image3
+
+def logic_OR(image_path1, image_path2):
+    image1 = editor.imread(image_path1,0)
+    image2 = editor.imread(image_path2,0)
+    image3 = image2
+    i = 0
+    while i < len(image1):
+        j = 0
+        while j < len(image1):
+            temp = round(image1[i][j]) or round(image2[i][j])
+            if temp:
+                image3[i][j] = 255
+            else:
+               image3[i][j] = 0
+            j = j + 1
+        i = i + 1
+    return image3
+
+def logic_XOR(image_path1, image_path2):
+    image1 = editor.imread(image_path1,0)
+    image2 = editor.imread(image_path2, 0)
+    image3 = image2
+    i = 0
+    while i < len(image1):
+        j = 0
+        while j < len(image1):
+            temp = round(image1[i][j]) is not round(image2[i][j])
+            if temp:
+                image3[i][j] = 255
+            else:
+               image3[i][j] = 0
+            j = j + 1
+        i = i + 1
+    return image3
+
+def logic_NAND(image_path1, image_path2):
+    image1 = editor.imread(image_path1, 0)
+    image2 = editor.imread(image_path2, 0)
+    image3 = image2
+    i = 0
+    while i < len(image1):
+        j = 0
+        while j < len(image1):
+            temp = round(image1[i][j]) and round(image2[i][j])
+            if temp is not True:
+                image3[i][j] = 255
+            else:
+               image3[i][j] = 0
+            j = j + 1
+        i = i + 1
+    return image3
+
+def logic_NOR(image_path1, image_path2):
+    image1 = editor.imread(image_path1, 0)
+    image2 = editor.imread(image_path2, 0)
+    image3 = image2
+    i = 0
+    while i < len(image1):
+        j = 0
+        while j < len(image1):
+            temp = round(image1[i][j]) or round(image2[i][j])
+            if temp is not True:
+                image3[i][j] = 255
+            else:
+               image3[i][j] = 0
+            j = j + 1
+        i = i + 1
+    return image3
+
+def logic_NOT(image_path1):
+    image1 = editor.imread(image_path1, 0)
+    image2 = image1
+    i = 0
+    while i < len(image1):
+        j = 0
+        while j < len(image1):
+            temp = round(image1[i][j])
+            if temp:
+                image2[i][j] = 0
+            else:
+               image2[i][j] = 255
+            j = j + 1
+        i = i + 1
+    return image2
+
 
 def main():
-    imagem1 = editor.imread('imagens/sapo.png')
-    imagem3 = multiplyImagesByScalar(imagem1,2)
+    imagem1 = 'imagens/sapo.png'
+    imagem2 = 'imagens/world.png'
+    imagem3 = logic_NOR(imagem1,imagem2)
     editor.imshow('imagem',imagem3)
     editor.waitKey(0)
 main()
