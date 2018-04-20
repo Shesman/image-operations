@@ -1,3 +1,5 @@
+#! venv/bin/python
+
 from image_operations import *
 
 image_default1 = 'imagens/sapo.png'
